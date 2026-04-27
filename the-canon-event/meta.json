@@ -1,0 +1,16 @@
+{
+  "slug": "the-canon-event",
+  "displayName": "the canon event",
+  "viewUrl": "https://treepo.xyz/f/the-canon-event",
+  "createdAt": "2026-04-24",
+  "currentBranch": "seed-6a6ab2b5",
+  "currentCommitCount": 1,
+  "previousBranches": [
+    {
+      "branch": "seed-b61ed100",
+      "commitCount": 1492,
+      "note": "the original full Bureau-of-Canon-Events archive — the 51KB seed in seeds/v1-original-1492-commits.js"
+    }
+  ],
+  "accessCodeFile": "./access-code.age"
+}

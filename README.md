@@ -1,13 +1,15 @@
 # treepo
 
-Encrypted access codes for my [treepo.xyz](https://treepo.xyz) forests. A treepo is a virtual forest backed by a real Git repo — every commit is part of the artwork.
+Source, seed scripts, and encrypted access codes for my [treepo.xyz](https://treepo.xyz) forests. A treepo is a virtual forest backed by a real Git repo — every commit is part of the artwork.
 
 ## Forests
 
-| forest | viewer | seeded |
+| forest | viewer | source |
 | --- | --- | --- |
-| **the canon event** — Spider-Man multiverse: every variant of the radioactive-spider bite, cataloged by the Bureau of Canon Events | <https://treepo.xyz/f/the-canon-event> | 2026-04-24 |
-| **the tree of life — game of life** — fictional 1970–1996 archive of the KOS Institute for Cellular Botany; each tree is a Conway's Game of Life specimen, each commit one observation | <https://treepo.xyz/f/the-tree-of-life-game-of-life> | 2026-04-27 |
+| **the canon event** — Spider-Man multiverse: every variant of the radioactive-spider bite, cataloged by the Bureau of Canon Events | <https://treepo.xyz/f/the-canon-event> | [`the-canon-event/`](the-canon-event/) |
+| **the tree of life — game of life** — 1970–1996 archive of the KOS Institute for Cellular Botany; each tree is a Conway's Game of Life specimen, each commit one observation | <https://treepo.xyz/f/the-tree-of-life-game-of-life> | [`the-tree-of-life-game-of-life/`](the-tree-of-life-game-of-life/) |
+
+Each forest directory contains a `README.md`, a `meta.json` with branch/commit-count info, and a `seeds/` subdirectory with the JavaScript seed scripts that produced each version of the forest. The Conway forest also ships an independent validator (`validate.mjs`).
 
 ## Why this repo exists
 
@@ -30,9 +32,3 @@ Substitute whichever of your SSH private keys corresponds to one of the recipien
 curl -sS https://github.com/lachieh.keys > recipients.pub
 printf '%s' "$ACCESS_CODE" | mise exec -- age -R recipients.pub -a -o secrets/<forest>.access-code.age
 ```
-
-## Files
-
-- `recipients.pub` — the SSH public keys age encrypts to (a snapshot of `github.com/lachieh.keys` at seal time)
-- `secrets/*.access-code.age` — armored age ciphertext, one per forest
-- `.mise.toml` — pins `age` so future-me doesn't have to remember which version

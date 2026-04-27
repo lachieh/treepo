@@ -1,0 +1,16 @@
+{
+  "slug": "the-tree-of-life-game-of-life",
+  "displayName": "the tree of life - game of life",
+  "viewUrl": "https://treepo.xyz/f/the-tree-of-life-game-of-life",
+  "createdAt": "2026-04-27",
+  "currentBranch": "seed-492e77fc",
+  "currentCommitCount": 3109,
+  "previousBranches": [
+    {
+      "branch": "seed-082023ea",
+      "commitCount": 3108,
+      "note": "first seed; identical content minus the README"
+    }
+  ],
+  "accessCodeFile": "./access-code.age"
+}
