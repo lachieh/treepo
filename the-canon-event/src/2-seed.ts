@@ -1,3 +1,4 @@
+/// <reference types="treepo-seed-api" />
 // THE CANON EVENT — Bureau of Canon Events, Field Office ∞, Desk 37,412
 // Every universe's spider bite. Cataloged.
 

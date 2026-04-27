@@ -1,3 +1,4 @@
+/// <reference types="treepo-seed-api" />
 // Minimal seed: place a README on the canon event forest's main branch.
 // The original 1492-commit forest is preserved on the prior branch
 // (seed-b61ed100) on the artifacts repo.

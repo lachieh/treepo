@@ -5,11 +5,12 @@
   "createdAt": "2026-04-24",
   "currentBranch": "seed-6a6ab2b5",
   "currentCommitCount": 1,
+  "currentSeedSource": "src/1-readme-only.ts",
   "previousBranches": [
     {
       "branch": "seed-b61ed100",
       "commitCount": 1492,
-      "note": "the original full Bureau-of-Canon-Events archive — the 51KB seed in seeds/v1-original-1492-commits.js"
+      "note": "the original full Bureau-of-Canon-Events archive — see src/2-seed.ts (53 KB source, ~49 KB bundled, over the 40 KB cap)"
     }
   ],
   "accessCodeFile": "./access-code.age"

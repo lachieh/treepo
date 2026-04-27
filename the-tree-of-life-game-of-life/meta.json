@@ -5,6 +5,7 @@
   "createdAt": "2026-04-27",
   "currentBranch": "seed-492e77fc",
   "currentCommitCount": 3109,
+  "currentSeedSource": "src/2-seed.ts",
   "previousBranches": [
     {
       "branch": "seed-082023ea",

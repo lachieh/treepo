@@ -1,0 +1,4 @@
+packages:
+  - "packages/*"
+  - "the-canon-event"
+  - "the-tree-of-life-game-of-life"

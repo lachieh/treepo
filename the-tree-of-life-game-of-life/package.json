@@ -1,0 +1,20 @@
+{
+  "name": "the-tree-of-life-game-of-life",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "treepo forest: KOS Institute for Cellular Botany — Conway's Game of Life as botanical specimens, 1970–1996",
+  "scripts": {
+    "build": "vp pack",
+    "typecheck": "tsc --noEmit",
+    "check": "vp check"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "treepo-seed-api": "workspace:*",
+    "typescript": "^5.6.3",
+    "vite-plus": "^0.1.19"
+  }
+}

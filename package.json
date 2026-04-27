@@ -1,0 +1,20 @@
+{
+  "name": "treepo",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "source, seeds, and encrypted access codes for my treepo.xyz forests",
+  "scripts": {
+    "build": "vp run --filter './the-*' build",
+    "typecheck": "vp run --filter './the-*' typecheck",
+    "check": "vp check"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "vite-plus": "^0.1.19"
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@10.33.2"
+}

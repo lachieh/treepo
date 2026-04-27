@@ -1,3 +1,4 @@
+/// <reference types="treepo-seed-api" />
 // KOS Institute for Cellular Botany — an imagined 1970–1996 archive.
 // Each "tree" is a specimen of Conway's Game of Life; each commit one
 // observation, filed by the rotating staff of the institute.
