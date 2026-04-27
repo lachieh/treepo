@@ -1,0 +1,1 @@
+PRIVATE_KEY="op://Private/GitHub SSH Key - Personal/private key?ssh-format=openssh"

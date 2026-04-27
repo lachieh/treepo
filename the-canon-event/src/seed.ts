@@ -1,13 +1,12 @@
-/// <reference types="treepo-seed-api" />
+/// <reference types="@repo/treepo-seed-api" />
 // THE CANON EVENT — Bureau of Canon Events, Field Office ∞, Desk 37,412
 // Every universe's spider bite. Cataloged.
 
+import { hash, prng, pick } from '@repo/utils'
+import readme from './README.md'
+
 export async function seed() {
-  // ====================== utilities ======================
-  const hash = (str) => { let h = 2166136261 >>> 0; for (let i = 0; i < str.length; i++) h = Math.imul(h ^ str.charCodeAt(i), 16777619); return h >>> 0; };
-  const prng = (s) => { let x = s >>> 0; return () => { x = (Math.imul(x, 1664525) + 1013904223) >>> 0; return x / 0x100000000; }; };
-  const pick = (r, a) => a[Math.floor(r() * a.length)];
-  const chance = (r, p) => r() < p;
+  // ====================== forest-local utilities ======================
   const ri = (r, lo, hi) => Math.floor(r() * (hi - lo)) + lo;
   const pad = (n, w = 2) => String(n).padStart(w, "0");
   // Every commit on August 10, some year in [1970, 2095]. The canon date.
@@ -1042,73 +1041,6 @@ ${tree(id, [
     }
   }
 
-  // ====================== earth-616 slow-motion bite (hundreds of commits in one second) ======================
-  // Every commit on August 10, 1970, between 15:47:05 and 15:47:06.
-  // We rewrite ONE file — the-bite-in-slow-motion.tree — across many micro-beats.
-  const slowPath = "universes/earth-616/the-bite-in-slow-motion.tree";
-  const slowBeats = [
-    "a breath is drawn in the hallway; it is held.",
-    "a fluorescent tube ticks in frequency 29.967 hz.",
-    "the fang begins its descent; the mandible is set at 3.4°.",
-    "the cuticle at peter's fifth cervical vertebra lifts 0.0001 inch.",
-    "a single photon leaves the tube, heads toward peter's eye.",
-    "peter's eye has not yet responded; retina darkness.",
-    "the fang enters skin. one sensory nerve fires.",
-    "second nerve fires. third. (in serial, not parallel.)",
-    "uncle ben, eleven miles north, turns a page.",
-    "mary jane, two blocks east, uncaps eyeshadow.",
-    "the spider's chelicera closes; the thread has begun to fray.",
-    "peter's breath resumes; he does not yet know.",
-    "blood vessels in peter's neck dilate by 0.4 percent.",
-    "the fang withdraws, slower than it entered.",
-    "a rope of venom, cooling, traces a thread in the bloodstream.",
-    "on the other side of the city, aunt may boils a kettle.",
-    "a fluorescent tube ticks again. 29.967 hz is exact.",
-    "peter's mouth opens a millimeter; no sound yet.",
-    "the spider begins to climb its thread; less gracefully than before.",
-    "peter's left hand, closer to his backpack by 0.05 inch, stops.",
-    "a neuron in peter's spinal cord fires; not its first.",
-    "a second spider, in the exhibit, has noticed. it does nothing.",
-    "the watcher, on the moon, shifts his weight.",
-    "an archivist, at desk 37,412, opens a new file.",
-    "the radioactivity within peter is at 7.1 × 10⁻¹⁸ sieverts.",
-    "it will climb. he will not die. this is the branch.",
-    "a thought forms in peter's mind: 'was that a bite?'",
-    "the thought is not yet complete. it has no verb.",
-    "the spider has not yet reached the top of its thread.",
-    "a bell, somewhere, begins to ring.",
-    "peter turns his head, one degree.",
-    "the fluorescent tube ticks once more, for the record.",
-    "the bell is halfway through its first ring.",
-    "peter's knee locks, briefly, without instruction.",
-    "the spider is back inside the vitrine; it is breathing.",
-    "the bell finishes its first ring. the hallway moves.",
-    "peter's thought completes: 'was that a bite?'",
-    "the spider sleeps; it will not wake again today.",
-    "aunt may has poured the kettle.",
-    "uncle ben has turned another page.",
-    "the second passes.",
-  ];
-  let slowContent = `                  THE BITE IN SLOW MOTION
-                     (earth-616 · 15:47:05 – 15:47:06 EST)
-
-every frame below occupies less than 1/40 of a second.
-they are not in strict time order. time has been kind, here.
-
-`;
-  for (let i = 0; i < slowBeats.length; i++) {
-    slowContent += `  · ${slowBeats[i]}\n`;
-    // write once per beat, with a micro-offset date in the same wall-second
-    // Since ISO date can't express sub-second directly in our format, we vary seconds across 05/06
-    await commit({
-      path: slowPath,
-      content: slowContent,
-      message: slowBeats[i].replace(/\.$/, "").slice(0, 70),
-      author: i % 3 === 0 ? WAT : (i % 3 === 1 ? SPI : ARC),
-      date: AUG(1970, 15, 47, 5 + (i % 2)),
-    });
-  }
-
   // ====================== the paused universe — 80 commits of nothing ======================
   // earth-paused: the fang is descending. each commit is a different year, same event, same zero-progress.
   const pausePath = "universes/earth-paused/the-fang-descending.tree";
@@ -1252,6 +1184,17 @@ My drawer is full.
     message: "the file is not closed. the file cannot be closed.",
     author: ARC,
     date: AUG(2094, 23, 59, 59),
+  });
+
+  // README — filed the morning after, by junior archivist rye, with a
+  // forwarding address. Sourced from src/README.md (bundled as text by
+  // tsdown's default markdown loader).
+  await commit({
+    path: "README.md",
+    content: readme,
+    message: "README. filed for whoever inherits the drawer.",
+    author: JUN,
+    date: AUG(2095, 9, 0, 0),
   });
 
   await log("the bureau has cataloged what it could. in every universe, on august 10.");

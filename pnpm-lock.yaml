@@ -17,9 +17,19 @@ importers:
 
   packages/treepo-seed-api: {}
 
-  the-canon-event:
+  packages/utils:
     devDependencies:
-      treepo-seed-api:
+      typescript:
+        specifier: ^5.6.3
+        version: 5.9.3
+
+  the-canon-event:
+    dependencies:
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../packages/utils
+    devDependencies:
+      '@repo/treepo-seed-api':
         specifier: workspace:*
         version: link:../packages/treepo-seed-api
       typescript:
@@ -30,8 +40,12 @@ importers:
         version: 0.1.19(typescript@5.9.3)(vite@8.0.10)
 
   the-tree-of-life-game-of-life:
+    dependencies:
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../packages/utils
     devDependencies:
-      treepo-seed-api:
+      '@repo/treepo-seed-api':
         specifier: workspace:*
         version: link:../packages/treepo-seed-api
       typescript:

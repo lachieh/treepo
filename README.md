@@ -27,16 +27,10 @@ treepo/
 │  └─ treepo-seed-api/                     # ambient TS declarations for the
 │     └─ index.d.ts                        # treepo seed-script runtime
 └─ <forest-slug>/
-   ├─ package.json
-   ├─ vite.config.ts                       # pack: src/*.ts → dist/*.js
-   ├─ tsconfig.json
-   ├─ access-code.age                      # encrypted to recipients.pub
-   ├─ meta.json
-   ├─ README.md
-   ├─ src/                                 # TypeScript seed scripts
-   │  ├─ 1-readme-only.ts
-   │  └─ 2-seed.ts
-   └─ dist/                                # bundled JS (gitignored)
+   ├─ src/                                 # forest source code (TS)
+   ├─ dist/                                # bundled seed script (JS)
+   ├─ access-code.age                      # age-encrypted access code for seeding
+   └─ package.json                         # forest package manifest
 ```
 
 ## Commands
@@ -72,3 +66,16 @@ Substitute whichever of your SSH private keys corresponds to one of the recipien
 curl -sS https://github.com/lachieh.keys > recipients.pub
 printf '%s' "$ACCESS_CODE" | mise exec -- age -R recipients.pub -a -o <forest>/access-code.age
 ```
+
+## Building & Seeding
+
+From the workspace root, first test the seed script with a dry run:
+
+```sh
+pnpm -F the-canon-event dry-run # test the seed script without actually seeding
+```
+
+Then to run the seed script for real:
+
+```sh
+pnpm -F the-canon-event seed

@@ -1,5 +1,5 @@
 {
-  "name": "treepo-seed-api",
+  "name": "@repo/treepo-seed-api",
   "version": "0.1.0",
   "private": true,
   "description": "Ambient TypeScript declarations for the treepo.xyz seed-script runtime",

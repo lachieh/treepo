@@ -11,8 +11,9 @@
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "noEmit": true,
-    "types": ["treepo-seed-api"]
+    "types": ["@repo/treepo-seed-api"]
   },
   "include": ["**/src/**/*.ts"],
   "exclude": ["**/node_modules/**", "**/dist/**"]

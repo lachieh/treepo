@@ -1,19 +1,25 @@
 import { defineConfig } from 'vite-plus'
 
-// Each TS source file in src/ is a standalone treepo seed script. The pack
-// step bundles each one to a single ES module under dist/, with no imports
-// (the treepo runtime is a V8 isolate that cannot resolve modules). The
-// resulting .js file is what's POSTed to the treepo dry-run / seed API.
+// Single seed entry: src/seed.ts → dist/seed.js. The treepo runtime is a
+// V8 isolate with no module resolution, so the bundle must inline every
+// import — workspace packages (@repo/*) are forced into the bundle via
+// `deps.alwaysBundle`. Markdown files are loaded as text by tsdown's
+// default loader (`import md from './X.md'`). Output is minified and
+// tree-shaken to keep the seed under treepo's 40 KB script-size cap.
 export default defineConfig({
   pack: {
-    entry: ['src/1-readme-only.ts', 'src/2-seed.ts'],
+    entry: ['src/seed.ts'],
     format: 'esm',
     target: 'es2022',
     platform: 'neutral',
     treeshake: true,
-    minify: false,
+    minify: true,
     sourcemap: false,
     clean: true,
     outDir: 'dist',
+    deps: {
+      alwaysBundle: [/^@repo\//],
+    },
+    loader: { '.md': 'text' },
   },
 })

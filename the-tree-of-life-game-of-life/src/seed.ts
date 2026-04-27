@@ -1,31 +1,15 @@
-/// <reference types="treepo-seed-api" />
+/// <reference types="@repo/treepo-seed-api" />
 // KOS Institute for Cellular Botany — an imagined 1970–1996 archive.
 // Each "tree" is a specimen of Conway's Game of Life; each commit one
 // observation, filed by the rotating staff of the institute.
 
-export async function seed() {
-  // ---- deterministic rng ----
-  function fnv(s) {
-    let h = 2166136261 >>> 0;
-    for (let i = 0; i < s.length; i++) {
-      h ^= s.charCodeAt(i);
-      h = Math.imul(h, 16777619) >>> 0;
-    }
-    return h >>> 0;
-  }
-  function mulb(a) {
-    return () => {
-      a = (a + 0x6D2B79F5) >>> 0;
-      let t = Math.imul(a ^ (a >>> 15), 1 | a);
-      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-    };
-  }
-  const pick = (arr, r) => arr[Math.floor(r * arr.length) % arr.length];
+import { hash, prng, pick } from '@repo/utils'
+import readme from './README.md'
 
+export async function seed() {
   // ---- game of life ----
   function makeBoard(seedStr, w, h, density) {
-    const r = mulb(fnv(seedStr));
+    const r = prng(hash(seedStr));
     const b = [];
     for (let y = 0; y < h; y++) {
       const row = new Array(w);
@@ -93,9 +77,9 @@ export async function seed() {
     lines.push(`living-cells: ${living}`);
     lines.push(`delta:        ${delta >= 0 ? '+' : ''}${delta}`);
     if (obs === 'reznik') {
-      lines.push(`mood:         ${pick(['rain','unsure','devotional','tired','watched','foggy','holy','bitter','weary','green'], rng())}`);
+      lines.push(`mood:         ${pick(rng, ['rain','unsure','devotional','tired','watched','foggy','holy','bitter','weary','green'])}`);
     } else if (obs === 'lemaire') {
-      lines.push(`form:         ${pick(['oscillatory','static','migratory','fragmenting','coalescing','radiant','glidenic'], rng())}`);
+      lines.push(`form:         ${pick(rng, ['oscillatory','static','migratory','fragmenting','coalescing','radiant','glidenic'])}`);
     } else if (obs === 'halden') {
       lines.push(`note:         binomial contested (cf. K-0071 correspondence, 1982).`);
     } else if (obs === 'virt') {
@@ -130,7 +114,7 @@ export async function seed() {
   // ---- commit message voices ----
   function voiceMsg(obs, gen, living, delta, rng) {
     if (obs === 'vohl') {
-      return pick([
+      return pick(rng, [
         `gen ${gen}. ${living} cells.`,
         `obs ${gen}: ${living} living, Δ=${delta>=0?'+':''}${delta}.`,
         `gen ${gen}. no anomaly.`,
@@ -138,10 +122,10 @@ export async function seed() {
         `gen ${gen} logged.`,
         `count: ${living}. continued monitoring.`,
         `gen ${gen}. ${living}. second count agrees.`,
-      ], rng());
+      ]);
     }
     if (obs === 'reznik') {
-      return pick([
+      return pick(rng, [
         `gen ${gen} — the figure turns inward.`,
         `${living} lights. less than yesterday.`,
         `the pattern dreams itself again.`,
@@ -154,22 +138,22 @@ export async function seed() {
         `gen ${gen} — holding its breath.`,
         `${living} still. more than i thought would remain.`,
         `gen ${gen}. the room is quiet.`,
-      ], rng());
+      ]);
     }
     if (obs === 'lemaire') {
-      return `[fieldbook §${gen}] living=${living}, Δ=${delta>=0?'+':''}${delta}. form: ${pick(['oscillatory','static','migratory','fragmenting','coalescing','radiant'], rng())}.`;
+      return `[fieldbook §${gen}] living=${living}, Δ=${delta>=0?'+':''}${delta}. form: ${pick(rng, ['oscillatory','static','migratory','fragmenting','coalescing','radiant'])}.`;
     }
     if (obs === 'halden') {
-      return pick([
+      return pick(rng, [
         `gen ${gen}. ${living} cells. the binomial remains wrong.`,
         `obs ${gen}: ${living}. contra Řezník — this is not a "spirit".`,
         `gen ${gen}. ${living}. Dr. Vohl's method, applied correctly this time.`,
         `gen ${gen}. ${living} cells. cf. my 1983 note on boundary bias.`,
         `${living} cells at gen ${gen}. unremarkable. filed.`,
-      ], rng());
+      ]);
     }
     if (obs === 'virt') {
-      return pick([
+      return pick(rng, [
         `gen ${gen}!! ${living} cells and still going`,
         `ok Dr. Lemaire said count carefully. ${living} at gen ${gen}.`,
         `is that a glider?? (gen ${gen})`,
@@ -177,7 +161,7 @@ export async function seed() {
         `gen ${gen} — first time i've seen this one settle`,
         `${living} cells at gen ${gen} :)`,
         `aaah gen ${gen}, three of them vanished at once`,
-      ], rng());
+      ]);
     }
     return `gen ${gen}. ${living}.`;
   }
@@ -350,7 +334,7 @@ export async function seed() {
 
   // Specimens — generate all generations, push one event per gen
   for (const spec of specimens) {
-    const rng = mulb(fnv('msg-' + spec.id));
+    const rng = prng(hash('msg-' + spec.id));
     let board = makeBoard(spec.seed, spec.w, spec.h, spec.density);
     const slug = spec.binomial.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-+|-+$)/g, '');
     const path = `${spec.dir}/${spec.id}-${slug}.tree`;
@@ -393,6 +377,19 @@ export async function seed() {
       });
     }
   }
+
+  // README — added by the descendant who keeps the keys. Sourced from
+  // src/README.md (bundled as text by tsdown's default markdown loader).
+  events.push({
+    t: Date.parse('1996-06-15T12:00:00Z'),
+    fn: () => commit({
+      path: 'README.md',
+      content: readme,
+      message: 'README. for whoever opens the drawer.',
+      author: { name: 'the descendant', email: 'descendant@kos-institute.cz.archive' },
+      date: '1996-06-15T12:00:00Z',
+    }),
+  });
 
   // Sort by timestamp and fire
   events.sort((a, b) => a.t - b.t);

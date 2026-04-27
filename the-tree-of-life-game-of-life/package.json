@@ -7,13 +7,18 @@
   "scripts": {
     "build": "vp pack",
     "typecheck": "tsc --noEmit",
-    "check": "vp check"
+    "check": "vp check",
+    "dry-run": "pnpm build && node ../scripts/seed.ts dry-run",
+    "seed": "pnpm build && node ../scripts/seed.ts seed"
   },
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@repo/utils": "workspace:*"
+  },
   "devDependencies": {
-    "treepo-seed-api": "workspace:*",
+    "@repo/treepo-seed-api": "workspace:*",
     "typescript": "^5.6.3",
     "vite-plus": "^0.1.19"
   }
